@@ -131,7 +131,7 @@ class FileLocator extends BaseFileLocator
             $this->setCurrentTheme($theme, $this->activeTheme->getDeviceType());
         }
 
-        if ('@' === $name[0]) {
+        if ('@' === $name[0] || 0 === strpos($name, 'views/@')) {
             return $this->locateBundleResource($name, $this->path, $first);
         }
 
@@ -164,7 +164,7 @@ class FileLocator extends BaseFileLocator
             throw new \RuntimeException(sprintf('File name "%s" contains invalid characters (..).', $name));
         }
 
-        $bundleName = substr($name, 1);
+        $bundleName = substr(str_replace('views/', '', $name), 1);
         $path = '';
         if (false !== strpos($bundleName, '/')) {
             list($bundleName, $path) = explode('/', $bundleName, 2);
